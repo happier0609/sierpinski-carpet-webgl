@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sierpinski Carpet — WebGL 과제</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        canvas {
+            border: 1px solid #ccc;
+            background: white;
+        }
+
+        .controls {
+            margin-top: 14px;
+        }
+
+        .controls>* {
+            margin: 0 6px;
+        }
+    </style>
+
+    <!-- 정점 shader: 회전이나 이동은 필요 없어서 위치만 그대로 넘김 -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+
+void main()
+{
+    gl_Position = vPosition;
+}
+</script>
+
+    <!-- 단편 shader: uColor 하나로 전체를 칠함 (색상 제어 여기서) -->
+    <script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+uniform vec4 uColor;
+
+void main()
+{
+    gl_FragColor = uColor;
+}
+</script>
+
+    <script src="sierpinskiCarpet.js"></script>
+</head>
+
+<body onload="init()">
+    <h2>Sierpinski Carpet</h2>
+    <canvas id="gl-canvas" width="540" height="540">
+        이 브라우저는 canvas를 지원하지 않습니다.
+    </canvas>
+
+    <div class="controls">
+        <!-- 분할 횟수 조절 -->
+        <label>
+            분할 횟수(재귀 깊이): <span id="levelValue">3</span>
+            <input id="levelSlider" type="range" min="0" max="5" step="1" value="3">
+        </label>
+    </div>
+
+    <div class="controls">
+        <!-- 색상 조절 -->
+        <label>
+            색상:
+            <input id="colorPicker" type="color" value="#2b6fdb">
+        </label>
+    </div>
+
+    <p id="infoText"></p>
+</body>
+
+</html>
